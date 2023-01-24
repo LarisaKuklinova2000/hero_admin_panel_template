@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 
 const HeroesFilters = () => {
 
-    const {filters} = useSelector(state => state)
+    const {filters} = useSelector(state => state.filters)
     const dispatch = useDispatch()
 
     const btnsData = [

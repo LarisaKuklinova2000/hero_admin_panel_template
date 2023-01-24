@@ -26,6 +26,7 @@ const HeroesAddForm = () => {
             <div className="mb-3">
                 <label htmlFor="name" className="form-label fs-4">Имя нового героя</label>
                 <input 
+                    required
                     type="text" 
                     name="name" 
                     className="form-control" 
@@ -37,6 +38,7 @@ const HeroesAddForm = () => {
             <div className="mb-3">
                 <label htmlFor="text" className="form-label fs-4">Описание</label>
                 <textarea
+                    required
                     name="text" 
                     className="form-control" 
                     id="text" 
@@ -52,7 +54,7 @@ const HeroesAddForm = () => {
                     id="element" 
                     name="element"
                     onChange={(e) => setElem(e.target.value)}>
-                    <option >Я владею элементом...</option>
+                    <option disabled >Я владею элементом...</option>
                     <option value="fire">Огонь</option>
                     <option value="water">Вода</option>
                     <option value="wind">Ветер</option>
