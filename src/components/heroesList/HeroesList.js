@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 
-import { heroesFetching, heroesFetched, heroesFetchingError } from '../../actions';
+import { fetchHeroes } from '../../actions';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 
@@ -29,27 +29,13 @@ const HeroesList = () => {
 
 
     const filtredHeroes = useSelector(filteredHeroesSelector)
-    // const filtredHeroes = useSelector(state => {
-    //     const {heroes} = state.heroes
-    //     const {filters} = state.filters
-    //     if (filters.includes('all') || filters.length === 0) {
-    //         console.log('render')
-    //         return heroes
-    //     } else {
-    //         return heroes.filter(item => filters.includes(item.element))
-    //     }
-    // })
 
     const heroesLoadingStatus = useSelector(state => state.heroesLoadingStatus);
     const dispatch = useDispatch();
     const {request} = useHttp();
 
     useEffect(() => {
-        dispatch(heroesFetching());
-        request("http://localhost:3001/heroes")
-            .then(data => dispatch(heroesFetched(data)))
-            .catch(() => dispatch(heroesFetchingError()))
-
+        dispatch(fetchHeroes(request));
         // eslint-disable-next-line
     }, []);
 
