@@ -1,59 +1,8 @@
-import { createAction } from "@reduxjs/toolkit";
+import {heroesFetching, heroesFetched, heroesFetchingError} from '../components/heroesList/heroesSlice'
 
 export const fetchHeroes = (request) => (dispatch) => {
     dispatch(heroesFetching());
     request("http://localhost:3001/heroes")
         .then(data => dispatch(heroesFetched(data)))
         .catch(() => dispatch(heroesFetchingError()))
-}
-
-export const heroesFetching = createAction('HEROES_FETCHING')
-
-// export const heroesFetching = () => {
-//     return {
-//         type: 'HEROES_FETCHING'
-//     }
-// }
-
-export const heroesFetched = createAction('HEROES_FETCHED')
-
-// export const heroesFetched = (heroes) => {
-//     return {
-//         type: 'HEROES_FETCHED',
-//         payload: heroes
-//     }
-// }
-
-export const heroFatched = (hero) => {
-    return {
-        type: 'HEROES_ADD',
-        payload: hero
-    }
-}
-
-export const heroesFetchingError = () => {
-    return {
-        type: 'HEROES_FETCHING_ERROR'
-    }
-}
-
-export const deleteHero = (id) => {
-    return {
-        type: 'DELETE_HERO',
-        id
-    }
-}
-
-export const addFilter = (filter) => {
-    return {
-        type: 'ADD_FILTER',
-        payload: filter
-    }
-}
-
-export const deleteFilter = (filter) => {
-    return {
-        type: 'DELETE_FILTER',
-        payload: filter
-    }
 }

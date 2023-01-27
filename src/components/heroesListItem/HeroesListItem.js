@@ -1,5 +1,5 @@
 import { useHttp } from "../../hooks/http.hook";
-import { deleteHero } from '../../actions';
+import { deleteHero } from '../heroesList/heroesSlice';
 import { useDispatch } from 'react-redux';
 
 const HeroesListItem = ({id, name, description, element}) => {
