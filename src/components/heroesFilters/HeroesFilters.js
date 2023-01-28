@@ -1,18 +1,19 @@
 import { useSelector } from "react-redux";
 import { addFilter, deleteFilter } from "../heroesFilters/heroesFilterSlice";
 import { useDispatch } from "react-redux";
+import { filtersList } from "../heroesFilters/heroesFilterSlice";
 
 const HeroesFilters = () => {
 
-    const {filters} = useSelector(state => state.filters)
+    const filters = useSelector(filtersList)
     const dispatch = useDispatch()
 
     const btnsData = [
-        {class: 'btn-outline-dark', name: 'Все', value:'all'},
-        {class: 'btn-danger', name: 'Огонь', value:"fire"},
-        {class: 'btn-primary', name: 'Вода', value:"water"},
-        {class: 'btn-success', name: 'Ветер', value:"wind"},
-        {class: 'btn-secondary', name: 'Земля', value:"earth"}];
+        {id: 1, class: 'btn-outline-dark', name: 'Все', value:'all'},
+        {id: 2, class: 'btn-danger', name: 'Огонь', value:"fire"},
+        {id: 3, class: 'btn-primary', name: 'Вода', value:"water"},
+        {id: 4, class: 'btn-success', name: 'Ветер', value:"wind"},
+        {id: 5, class: 'btn-secondary', name: 'Земля', value:"earth"}];
 
     const buttons = btnsData.map((item, i) => {
         const active = filters.includes(item.value)
@@ -22,7 +23,7 @@ const HeroesFilters = () => {
             key={i} 
             className={`btn ${item.class} ${clazz}`}
             onClick={() => {
-                filters.includes(item.value)? dispatch(deleteFilter(item.value)): dispatch(addFilter(item.value))
+                filters.includes(item.value)? dispatch(deleteFilter(item.id)): dispatch(addFilter(item))
             }}
             >{item.name}</button>
     })

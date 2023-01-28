@@ -1,24 +1,38 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSelector } from "@reduxjs/toolkit";
+import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
 
-const initialState = {
-    filters: []
-}
+const filtersAdapter = createEntityAdapter();
 
-const heroesFiltersSlice = createSlice({
-    name: 'heroesFilters',
+const initialState = filtersAdapter.getInitialState()
+
+const filtersSlice = createSlice({
+    name: 'filters',
     initialState,
     reducers: {
         addFilter: (state, action) => {
-            state.filters = state.filters.includes('all') || action.payload === 'all'? [action.payload]: [...state.filters, action.payload]
+            action.payload.value === 'all'?
+                filtersAdapter.setAll(state, [action.payload]):
+                filtersAdapter.removeOne(state, 1); filtersAdapter.addOne(state, action.payload)
+
         },
         deleteFilter: (state, action) => {
-            state.filters = !state.filters.includes('all')? state.filters.filter(item => item !== action.payload): [action.payload]
+                filtersAdapter.removeOne(state, action.payload)
         }
     }
 })
 
-const {actions, reducer} = heroesFiltersSlice
+const {actions, reducer} = filtersSlice
 export default reducer
+
+const filtersArr = filtersAdapter.getSelectors(state => state.filters).selectAll
+
+export const filtersList = createSelector(
+    filtersArr,
+    arr => arr.map(item => item = item.value)
+)
+
+export const activeFilters = createSelector
+
 export const {
     addFilter,
     deleteFilter
