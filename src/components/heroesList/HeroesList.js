@@ -1,24 +1,32 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { fetchHeroes, filteredHeroesSelector } from '../heroesList/heroesSlice';
+import { filtersList } from "../heroesFilters/heroesFilterSlice";
+import { useGetHeroesQuery } from '../../api/apiSlicee';
+
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 
 const HeroesList = () => {
-    const filtredHeroes = useSelector(filteredHeroesSelector)
 
-    const heroesLoadingStatus = useSelector(state => state.heroesLoadingStatus);
-    const dispatch = useDispatch();
+    const {
+        data: heroes = [],
+        isLoading,
+        isError
+    } = useGetHeroesQuery();
 
-    useEffect(() => {
-        dispatch(fetchHeroes());
-        // eslint-disable-next-line
-    }, []);
+    const filteredHeroes = (filter, heroes) => {
+        if (filter.includes('all') || filter.length === 0) {
+            return heroes
+        } else {
+            return heroes.filter(item => filter.includes(item.element))
+        } 
+    }
 
-    if (heroesLoadingStatus === "loading") {
+    const filters = useSelector(filtersList)
+
+    if (isLoading) {
         return <Spinner/>;
-    } else if (heroesLoadingStatus === "error") {
+    } else if (isError) {
         return <h5 className="text-center mt-5">Ошибка загрузки</h5>
     }
 
@@ -37,7 +45,7 @@ const HeroesList = () => {
         })
     }
 
-    const elements = renderHeroesList(filtredHeroes);
+    const elements = renderHeroesList(filteredHeroes(filters, heroes));
     return (
         <ul>
             {elements}

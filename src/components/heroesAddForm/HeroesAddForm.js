@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { useHttp } from "../../hooks/http.hook";
-import { heroFatched } from '../heroesList/heroesSlice';
 import { useDispatch } from 'react-redux';
+import { useCreateHeroMutation } from "../../api/apiSlicee";
 
 const HeroesAddForm = () => {
 
     const [name, setName] = useState('')
     const [descr, setDescr] = useState('')
     const [elem, setElem] = useState('')
+
+    const [createHero, {isLoading}] = useCreateHeroMutation()
+
     const {request} = useHttp()
     const dispatch = useDispatch()
 
@@ -57,8 +60,7 @@ const HeroesAddForm = () => {
                 className="btn btn-primary"
                 onClick={(e) => {
                     e.preventDefault()
-                    request("http://localhost:3001/heroes", 'POST', JSON.stringify({id: Math.floor(Math.random() * 10000), name: name, description: descr, element: elem}))
-                        .then(res => dispatch(heroFatched(res)))
+                    createHero({id: Math.floor(Math.random() * 10000), name: name, description: descr, element: elem}).unwrap();
                 }}
                 >Создать</button>
         </form>

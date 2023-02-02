@@ -1,11 +1,8 @@
-import { useHttp } from "../../hooks/http.hook";
-import { deleteHero } from '../heroesList/heroesSlice';
-import { useDispatch } from 'react-redux';
+import { useDeleteHeroMutation } from "../../api/apiSlicee";
 
 const HeroesListItem = ({id, name, description, element}) => {
 
-    const { request } = useHttp()
-    const dispatch = useDispatch()
+    const [deleteHero] = useDeleteHeroMutation()
 
     let elementClassName;
 
@@ -43,10 +40,7 @@ const HeroesListItem = ({id, name, description, element}) => {
                     type="button" 
                     className="btn-close btn-close" 
                     aria-label="Close"
-                    onClick={() => {
-                        request(`http://localhost:3001/heroes/${id}`, 'DELETE')
-                            .then(res => dispatch(deleteHero(id)))
-                    }}
+                    onClick={() => deleteHero(id)}
                     ></button>
             </span>
         </li>
